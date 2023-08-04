@@ -64,7 +64,8 @@ class RandomUserAgentMiddleware(RandomUserAgentBase):
 
             request.headers.setdefault('User-Agent', self._proxy2ua[proxy])
         else:
-            request.headers.setdefault('User-Agent', self._ua_provider.get_random_ua())
+            if not request.meta.get('playwright'):
+                request.headers.setdefault('User-Agent', self._ua_provider.get_random_ua())
 
 
 class RetryUserAgentMiddleware(RetryMiddleware, RandomUserAgentBase):
@@ -72,6 +73,7 @@ class RetryUserAgentMiddleware(RetryMiddleware, RandomUserAgentBase):
     Get random User-Agent set on request retry.
     Use this middleware in place of the built-in RetryMiddleware.
     """
+
     def __init__(self, crawler):
         RetryMiddleware.__init__(self, crawler.settings)
         RandomUserAgentBase.__init__(self, crawler)
@@ -86,7 +88,8 @@ class RetryUserAgentMiddleware(RetryMiddleware, RandomUserAgentBase):
 
         if response.status in self.retry_http_codes:
             reason = response_status_message(response.status)
-            request.headers['User-Agent'] = self._ua_provider.get_random_ua()
+            if not request.meta.get('playwright'):
+                request.headers['User-Agent'] = self._ua_provider.get_random_ua()
             return self._retry(request, reason, spider) or response
 
         return response
