@@ -66,6 +66,8 @@ class RandomUserAgentMiddleware(RandomUserAgentBase):
         else:
             if not request.meta.get('playwright'):
                 request.headers.setdefault('User-Agent', self._ua_provider.get_random_ua())
+            else:
+                logger.debug('Playwright active, random UA not assigned')
 
 
 class RetryUserAgentMiddleware(RetryMiddleware, RandomUserAgentBase):
