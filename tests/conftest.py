@@ -4,8 +4,8 @@ from scrapy.http import Response
 from scrapy.spiders import Spider
 from scrapy.utils.test import get_crawler
 
-from scrapy_fake_useragent import providers
-from scrapy_fake_useragent.middleware import RandomUserAgentMiddleware, RetryUserAgentMiddleware
+from neon_fake_ua import providers
+from neon_fake_ua.middleware import RandomUserAgentMiddleware, RetryUserAgentMiddleware
 
 
 @pytest.fixture(autouse=True)

@@ -1,8 +1,8 @@
 from scrapy import Request, Spider
 from scrapy.utils.test import get_crawler
 
-from scrapy_fake_useragent.middleware import RandomUserAgentMiddleware
-from scrapy_fake_useragent.providers import FakerProvider
+from neon_fake_ua.middleware import RandomUserAgentMiddleware
+from neon_fake_ua.providers import FakerProvider
 
 
 def test_cannot_load_providers(mocker):
@@ -12,7 +12,7 @@ def test_cannot_load_providers(mocker):
     crawler = get_crawler(Spider, settings_dict={
         'FAKEUSERAGENT_PROVIDERS': ['scrapy_fake_useragent.providers.FakerProvider'],
         'USER_AGENT': 'Default User-Agent'}
-                          )
+    )
     spider = crawler._create_spider('foo')
     mw = RandomUserAgentMiddleware.from_crawler(crawler)
 
